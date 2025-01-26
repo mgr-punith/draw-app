@@ -7,6 +7,7 @@ import {
   SignInSchema,
   CreateUserSchema,
 } from "@repo/common/";
+import { prisma } from "@repo/db/client";
 
 const app = express();
 const PORT = 5000;
