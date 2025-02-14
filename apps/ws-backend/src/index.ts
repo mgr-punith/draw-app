@@ -2,6 +2,7 @@ import { WebSocketServer } from "ws";
 import WebSocket from "ws";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { JWT_SECRET } from "@repo/backend-things/config";
+import { prismaClient} from "@repo/db/client"
 
 const wss = new WebSocketServer({ port: 8080 });
 
@@ -55,7 +56,7 @@ wss.on("connection", function connection(ws, request) {
     ws,
   });
 
-  ws.on("message", function message(data) {
+  ws.on("message", async function message(data) {
     const parsedData = JSON.parse(data as unknown as string); //the data will be like = {type : "join_room", id: 1}
 
     if (parsedData.type === "join_room") {
@@ -63,29 +64,42 @@ wss.on("connection", function connection(ws, request) {
       user?.rooms.push(parsedData.roomId);
     }
 
+    const user = users.find((x) => x.ws === ws);
     if (parsedData.type === "leave_room") {
-      const user = users.find((x) => x.ws === ws);
       if (!user) {
         return;
       }
       user.rooms = user?.rooms.filter((x) => x === parsedData.room);
     }
 
-    if (parsedData.type === "chat") {
-      const roomId = parsedData.roomId;
-      const message = parsedData.message;
-
-      users.forEach(user => {
-        if (user.rooms.includes(roomId)) {
-          user.ws.send(
-            JSON.stringify({
-              type: "chat",
-              message: message,
-              roomId,
-            })
-          );
-        }
-      });
+    try{
+      if (parsedData.type === "chat") {
+        const roomId = parsedData.roomId;
+        const message = parsedData.message;
+  
+        await prismaClient.chat.create({
+          data:{
+            roomId,
+            message,
+            userId
+          }
+        })
+  
+        users.forEach(user => {
+          if (user.rooms.includes(roomId)) {
+            user.ws.send(
+              JSON.stringify({
+                type: "chat",
+                message: message,
+                roomId,
+              })
+            );
+          }
+        });
+      }
+    }
+    catch(e){
+      return e;
     }
   });
 });
