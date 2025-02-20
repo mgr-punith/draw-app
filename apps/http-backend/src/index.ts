@@ -118,29 +118,55 @@ app.post("/room", middleware, async (req, res) => {
       roomId: room.id,
     });
   } catch (e) {
-    console.log(e)
+    console.log(e);
     res.status(411).json({
       message: "ROOM ALREADY EXISTS",
     });
   }
 });
 
-app.get("/chat/:roomId", async (req, res)=>{
-  const roomId = Number(req.params.roomId);
-  const message = await prismaClient.chat.findMany({
-    where:{
-      roomId:roomId
-    },
-    orderBy:{
-      id:"desc"
-    },
-    take:50
-  });
-  res.json({
-    message
-  })
-})
+app.get("/chats/:roomId", async (req, res) => {
+  try {
+    const roomId = Number(req.params.roomId);
+    console.log(roomId);
+    const message = await prismaClient.chat.findMany({
+      where: {
+        roomId: roomId,
+      },
+      orderBy: {
+        id: "desc",
+      },
+      take: 50,
+    });
+    res.json({
+      message,
+    });
+  } catch (e) {
+    res.json({
+      message: [],
+    });
+  }
+});
 
-app.listen(PORT, ()=> {
+app.get("/room/:slug", async (req, res) => {
+  try {
+    const slug = req.params.slug;
+    const room = await prismaClient.room.findFirst({
+      where: {
+        slug,
+      },
+    });
+
+    res.json({
+      room,
+    });
+  } catch (e) {
+    res.json({
+      message:"The Error is in /room/:slug "
+    })
+  }
+});
+
+app.listen(PORT, () => {
   console.log(`YOUR SERVER IS RUNNING ON THE ${PORT}`);
 });
