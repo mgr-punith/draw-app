@@ -15,12 +15,8 @@ export function ChatRoomClient({
   const [currentMessage, setCurrentMessage] = useState("");
 
   useEffect(() => {
+    alert("sent a msg to join room")
     if (socket && !loading) {
-      if (socket.readyState !== WebSocket.OPEN) {
-        console.warn("WebSocket is not open yet. Waiting...");
-        return;
-      }
-
       socket.send(
         JSON.stringify({
           type: "join_room",
@@ -28,37 +24,20 @@ export function ChatRoomClient({
         })
       );
 
-      const handleMessage = (event: MessageEvent) => {
+      socket.onmessage = (event) => {
         const parsedData = JSON.parse(event.data);
         if (parsedData.type === "chat") {
-          setChats((prevChats) => [
-            ...prevChats,
-            { message: parsedData.message },
-          ]);
+          setChats((c) => [...c, { message: parsedData.message }]);
         }
-      };
-
-      socket.addEventListener("message", handleMessage);
-
-      return () => {
-        socket.removeEventListener("message", handleMessage);
       };
     }
   }, [socket, loading, id]);
 
   return (
     <div>
-      <div
-        style={{
-          height: "500px",
-          width: "500px",
-          overflowY: "auto",
-          border: "1px solid #ccc",
-          padding: "10px",
-        }}
-      >
-        {chats?.map((m, index) => <div key={index}>{m.message}</div>)}
-      </div>
+      {
+        chats.map(m=> <div>{m.message}</div>)
+      }
 
       <input
         type="text"
@@ -66,22 +45,21 @@ export function ChatRoomClient({
         onChange={(e) => {
           setCurrentMessage(e.target.value);
         }}
-      />
+      ></input>
       <button
         onClick={() => {
-          if (socket) {
-            socket.send(
-              JSON.stringify({
-                type: "chat",
-                roomId: id,
-                message: currentMessage,
-              })
-            );
-          }
+          socket?.send(
+            JSON.stringify({
+              type: "chat",
+              roomId: id,
+              message: currentMessage,
+            })
+          );
+
           setCurrentMessage("");
         }}
       >
-        SEND
+        Send message
       </button>
     </div>
   );

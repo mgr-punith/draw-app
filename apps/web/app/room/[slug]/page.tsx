@@ -6,6 +6,7 @@ import { ChatRoom } from "../../../Componets/ChatRoom";
 
 async function getRoomId(slug: string) {
   const response = await axios.get(`${BACKEND_URL}/room/${slug}`);
+  // console.log(response.data);
   return response.data.room.id;
 }
 
