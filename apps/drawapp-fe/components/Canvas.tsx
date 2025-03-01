@@ -14,7 +14,7 @@ export function Canvas({
     if (canvasRef.current) {
       draw(canvasRef.current, roomId, socket);
     }
-  }, [canvasRef, roomId, socket]);
+  }, [canvasRef]);
 
   return (
     <div className="relative min-h-screen w-screen">

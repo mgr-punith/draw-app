@@ -14,14 +14,14 @@ export function RoomCanvas({ roomId }: { roomId: string }) {
 
     ws.onopen = () => {
       setSocket(ws);
-      ws.send(
-        JSON.stringify({
-          type: "join_room",
-          roomId,
-        })
-      );
+      const data = JSON.stringify({
+        type: "join_room",
+        roomId,
+      });
+      console.log(data);
+      ws.send(data);
     };
-  });
+  }, []);
 
   if (!socket) {
     return <div>Connecting to server........</div>;

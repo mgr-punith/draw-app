@@ -22,7 +22,7 @@ export async function draw(
   socket: WebSocket
 ) {
   const ctx = canvas.getContext("2d");
-  const existingShape: Shape[] = await getAllShapes(roomId);
+  let existingShape: Shape[] = await getAllShapes(roomId);
   console.log(existingShape);
 
   if (!ctx) {
@@ -34,7 +34,8 @@ export async function draw(
 
     if (message.type == "chat") {
       const parsedShape = JSON.parse(message.message);
-      existingShape.push(parsedShape);
+
+      existingShape = [...existingShape, parsedShape];
       clearCanvas(existingShape, canvas, ctx);
     }
   };
@@ -62,7 +63,7 @@ export async function draw(
       height,
       width,
     };
-    existingShape.push(shape);
+    existingShape = [...existingShape, shape];
     socket.send(
       JSON.stringify({
         type: "chat",
@@ -72,6 +73,7 @@ export async function draw(
         roomId,
       })
     );
+    clearCanvas(existingShape, canvas, ctx);
   });
 
   canvas.addEventListener("mousemove", (e) => {
@@ -102,18 +104,12 @@ function clearCanvas(
 }
 
 async function getAllShapes(roomId: string) {
-  try {
-    const res = await axios.get(`${HTTP_BACKEND}/chats/${roomId}`);
-    // console.log("the 107 error: ", res.data.messages);
-    const messages = res.data.messages;
+  const res = await axios.get(`${HTTP_BACKEND}/chats/${roomId}`);
+  const messages = res.data.message || [];
 
-    const shapes = messages.map((x: { message: string }) => {
-      const messageData = JSON.parse(x.message);
-      return messageData.shape;
-    });
-    return shapes;
-  } catch (error) {
-    console.error("Error fetching shapes:", error);
-    return [];
-  }
+  const shapes = messages.map((x: { message: string }) => {
+    const messageData = JSON.parse(x.message);
+    return messageData.shape;
+  });
+  return shapes;
 }
