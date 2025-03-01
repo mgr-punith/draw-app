@@ -10,11 +10,14 @@ import {
 import { prismaClient } from "@repo/db/client";
 import bcrypt from "bcrypt";
 import { Request, Response } from "express";
+import cors from "cors";
 
 const app = express();
 const PORT = 5000;
 
 app.use(express.json());
+app.use(cors());
+
 
 app.get("/", (req, res) => {
   res.send("hello there");
@@ -128,7 +131,7 @@ app.post("/room", middleware, async (req, res) => {
 app.get("/chats/:roomId", async (req, res) => {
   try {
     const roomId = Number(req.params.roomId);
-    console.log(roomId)
+    console.log(roomId);
     const message = await prismaClient.chat.findMany({
       where: {
         roomId: roomId,
@@ -142,7 +145,7 @@ app.get("/chats/:roomId", async (req, res) => {
       message,
     });
   } catch (e) {
-    console.log(e)
+    console.log(e);
     res.json({
       message: [],
     });
@@ -163,8 +166,8 @@ app.get("/room/:slug", async (req, res) => {
     });
   } catch (e) {
     res.json({
-      message:"The Error is in /room/:slug "
-    })
+      message: "The Error is in /room/:slug ",
+    });
   }
 });
 
