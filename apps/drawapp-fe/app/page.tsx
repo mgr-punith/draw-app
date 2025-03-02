@@ -132,7 +132,7 @@ function App() {
           <div className="rounded-2xl shadow-2xl overflow-hidden bg-white border border-gray-100">
             <img
               src="https://images.unsplash.com/photo-1589561253898-768105ca91a8?q=80&w=1469&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-              alt="Excelidraw Interface"
+              alt=" Interface"
               className="w-full object-cover"
             />
           </div>
@@ -195,7 +195,7 @@ function App() {
               Solutions for Every Team
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Whether you&apos;re a startup or an enterprise, Excelidraw adapts
+              Whether you&apos;re a startup or an enterprise, Drawapp adapts
               to your needs
             </p>
           </div>
@@ -243,7 +243,7 @@ function App() {
             Ready to Transform Your Workflow?
           </h2>
           <p className="text-xl text-indigo-100 mb-12 max-w-3xl mx-auto">
-            Join thousands of teams who trust Excelidraw for their diagramming
+            Join thousands of teams who trust Drawapp for their diagramming
             and collaboration needs. Start for free, no credit card required.
           </p>
           <div className="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4">
@@ -414,11 +414,11 @@ function App() {
             <div className="flex items-center space-x-2 mb-4 md:mb-0">
               <Shapes className="h-6 w-6 text-indigo-600" />
               <span className="text-xl font-bold text-gray-900">
-                Excelidraw
+                Drawapp
               </span>
             </div>
             <div className="text-gray-500 text-sm">
-              © 2024 Excelidraw. All rights reserved.
+              © 2024 Drawapp. All rights reserved.
             </div>
           </div>
         </div>

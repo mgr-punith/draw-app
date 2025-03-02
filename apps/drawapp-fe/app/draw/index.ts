@@ -14,6 +14,13 @@ type Shape =
       centerX: number;
       centerY: number;
       radius: number;
+    }
+  | {
+      type: "pencil";
+      startX: number;
+      startY: number;
+      endX: number;
+      endY: number;
     };
 
 export async function draw(
@@ -57,7 +64,9 @@ export async function draw(
     const height = e.clientY - startY;
 
     const shape: Shape = {
-      type: "rect",
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-expect-error
+      type: window.activeTool,
       x: startX,
       y: startY,
       height,
@@ -82,7 +91,21 @@ export async function draw(
       const height = e.clientY - startY;
       clearCanvas(existingShape, canvas, ctx);
       ctx.strokeStyle = "rgba(255, 255, 255)";
-      ctx.strokeRect(startX, startY, width, height);
+
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-expect-error
+      const activeTool = window.activeTool;
+      if (activeTool === "rect") {
+        ctx.strokeRect(startX, startY, width, height);
+      } else if (activeTool === "circle") {
+        const centerX = startX + width / 2;
+        const centerY = startY + height / 2;
+        const radius = Math.max(width, height) / 2;
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.closePath();
+      }
     }
   });
 }
@@ -99,6 +122,7 @@ function clearCanvas(
     if (shapes.type === "rect") {
       ctx.strokeStyle = "rgba(255,255,255)";
       ctx.strokeRect(shapes.x, shapes.y, shapes.width, shapes.height);
+    } else if (shapes.type === "circle") {
     }
   });
 }
