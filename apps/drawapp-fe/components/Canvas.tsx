@@ -1,3 +1,4 @@
+
 import { draw } from "@/app/draw";
 import { useEffect, useRef, useState } from "react";
 import { useWindowSize } from "@/hook/useWindowSize";
@@ -21,12 +22,13 @@ export function Canvas({
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const { width, height } = useWindowSize();
   const [activeTool, setActiveTool] = useState<Tools>("rect");
+  const [existingShapes, setExistingShapes] = useState<unknown[]>([]); // Use state for shapes
 
-  useEffect(()=>{
+  useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-expect-error
     window.activeTool = activeTool;
-  },[activeTool])
+  }, [activeTool]);
 
   useEffect(() => {
     if (canvasRef.current) {
@@ -49,11 +51,10 @@ export function Canvas({
       if (prevCanvasImage) {
         ctx?.putImageData(prevCanvasImage, 0, 0);
       }
-
       // to => re render the drawing logic
-      draw(canvas, roomId, socket);
+      draw(canvas, roomId, socket, setExistingShapes, existingShapes); // Pass state setter and shapes
     }
-  }, [width, height]); // Runs when window size changes
+  }, [width, height, roomId, socket, existingShapes]); // Add existingShapes dependency
 
   return (
     <div className="relative min-h-screen w-screen">

@@ -52,27 +52,60 @@ export async function draw(
   let startX = 0;
   let startY = 0;
 
+  function getCanvasCoordinates(event: MouseEvent, canvas: HTMLCanvasElement) {
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+
+    return {
+      x: (event.clientX - rect.left) * scaleX,
+      y: (event.clientY - rect.top) * scaleY,
+    };
+  }
+
   canvas.addEventListener("mousedown", (e) => {
     clicked = true;
-    startX = e.clientX;
-    startY = e.clientY;
+    const coords = getCanvasCoordinates(e, canvas);
+    startX = coords.x;
+    startY = coords.y;
   });
 
   canvas.addEventListener("mouseup", (e) => {
     clicked = false;
-    const width = e.clientX - startX;
-    const height = e.clientY - startY;
+    const coords = getCanvasCoordinates(e, canvas);
+    const endX = coords.x;
+    const endY = coords.y;
 
-    const shape: Shape = {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-expect-error
-      type: window.activeTool,
-      x: startX,
-      y: startY,
-      height,
-      width,
-    };
-    existingShape = [...existingShape, shape];
+    const width = endX - startX;
+    const height = endY - startY;
+
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
+    const activeTool = window.activeTool;
+    let shape: Shape | null = null;
+    if (activeTool === "rect") {
+      shape = {
+        type: "rect",
+        x: startX,
+        y: startY,
+        height,
+        width,
+      };
+    } else if (activeTool === "circle") {
+      const radius = Math.abs(Math.max(width, height) / 2);
+      shape = {
+        type: "circle",
+        radius: radius,
+        centerX: startX + width / 2,
+        centerY: startY + height / 2,
+      };
+    }
+
+    if (!shape) {
+      return;
+    }
+    existingShape.push(shape);
+
     socket.send(
       JSON.stringify({
         type: "chat",
@@ -87,8 +120,11 @@ export async function draw(
 
   canvas.addEventListener("mousemove", (e) => {
     if (clicked) {
-      const width = e.clientX - startX;
-      const height = e.clientY - startY;
+      const coords = getCanvasCoordinates(e, canvas);
+      const endX = coords.x;
+      const endY = coords.y;
+      const width = endX - startX;
+      const height = endY - startY;
       clearCanvas(existingShape, canvas, ctx);
       ctx.strokeStyle = "rgba(255, 255, 255)";
 
@@ -98,9 +134,9 @@ export async function draw(
       if (activeTool === "rect") {
         ctx.strokeRect(startX, startY, width, height);
       } else if (activeTool === "circle") {
+        const radius = Math.abs(Math.max(width, height) / 2);
         const centerX = startX + width / 2;
         const centerY = startY + height / 2;
-        const radius = Math.max(width, height) / 2;
         ctx.beginPath();
         ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
         ctx.stroke();
@@ -118,11 +154,15 @@ function clearCanvas(
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  existingShape.map((shapes) => {
-    if (shapes.type === "rect") {
+  existingShape.map((shape) => {
+    if (shape.type === "rect") {
       ctx.strokeStyle = "rgba(255,255,255)";
-      ctx.strokeRect(shapes.x, shapes.y, shapes.width, shapes.height);
-    } else if (shapes.type === "circle") {
+      ctx.strokeRect(shape.x, shape.y, shape.width, shape.height);
+    } else if (shape.type === "circle") {
+      ctx.beginPath();
+      ctx.arc(shape.centerX, shape.centerY, shape.radius, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.closePath();
     }
   });
 }
