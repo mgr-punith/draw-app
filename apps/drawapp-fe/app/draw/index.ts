@@ -167,7 +167,7 @@ function clearCanvas(
   });
 }
 
-async function getAllShapes(roomId: string) {
+export async function getAllShapes(roomId: string) {
   const res = await axios.get(`${HTTP_BACKEND}/chats/${roomId}`);
   const messages = res.data.message || [];
 

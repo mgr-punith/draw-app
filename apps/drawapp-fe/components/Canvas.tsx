@@ -1,5 +1,3 @@
-
-import { draw } from "@/app/draw";
 import { useEffect, useRef, useState } from "react";
 import { useWindowSize } from "@/hook/useWindowSize";
 import { IconButton } from "./IconButton";
@@ -9,8 +7,9 @@ import {
   PencilIcon,
   RectangleHorizontalIcon,
 } from "lucide-react";
+import { Game } from "@/app/draw/Game";
 
-type Tools = "circle" | "rect" | "pencli" | "pointer";
+export type Tool = "circle" | "rect" | "pencil" | "pointer"; // Tool type defined here
 
 export function Canvas({
   roomId,
@@ -21,48 +20,34 @@ export function Canvas({
 }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const { width, height } = useWindowSize();
-  const [activeTool, setActiveTool] = useState<Tools>("rect");
-  const [existingShapes, setExistingShapes] = useState<unknown[]>([]); // Use state for shapes
-
-  useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
-    window.activeTool = activeTool;
-  }, [activeTool]);
+  const [activeTool, setActiveTool] = useState<Tool>("rect");
+  const gameRef = useRef<Game | null>(null);
 
   useEffect(() => {
     if (canvasRef.current) {
       const canvas = canvasRef.current;
-      const ctx = canvas.getContext("2d");
-
-      // to => Save current canvas content
-      const prevCanvasImage = ctx?.getImageData(
-        0,
-        0,
-        canvas.width,
-        canvas.height
-      );
-
-      // to => Resize the canvas
       canvas.width = width;
       canvas.height = height;
 
-      // => Restore previous drawings
-      if (prevCanvasImage) {
-        ctx?.putImageData(prevCanvasImage, 0, 0);
+      if (!gameRef.current) {
+        gameRef.current = new Game(canvas, roomId, socket);
+      } else {
+        gameRef.current.clearCanvas();
       }
-      // to => re render the drawing logic
-      draw(canvas, roomId, socket, setExistingShapes, existingShapes); // Pass state setter and shapes
     }
-  }, [width, height, roomId, socket, existingShapes]); // Add existingShapes dependency
+  }, [width, height, roomId, socket]);
+
+  useEffect(() => {
+    if (gameRef.current) {
+      gameRef.current.setTool(activeTool);
+    }
+  }, [activeTool]);
 
   return (
     <div className="relative min-h-screen w-screen">
-      {/* Floating Buttons  logic*/}
       <div className="absolute top-4 left-1/2 transform -translate-x-1/2 px-3 rounded-lg z-10 bg-neutral-700">
         <TopBar activeTool={activeTool} setActiveTool={setActiveTool} />
       </div>
-
       <canvas className="bg-zinc-950 block" ref={canvasRef} />
     </div>
   );
@@ -72,38 +57,30 @@ function TopBar({
   activeTool,
   setActiveTool,
 }: {
-  activeTool: Tools;
-  setActiveTool: (t: Tools) => void;
+  activeTool: Tool;
+  setActiveTool: (t: Tool) => void;
 }) {
   return (
     <div className="flex flex-row py-2">
       <IconButton
-        activated={activeTool === "pencli"}
+        activated={activeTool === "pencil"}
         icon={<PencilIcon size={16} />}
-        onClick={() => {
-          setActiveTool("pencli");
-        }}
-      ></IconButton>
+        onClick={() => setActiveTool("pencil")}
+      />
       <IconButton
         activated={activeTool === "rect"}
         icon={<RectangleHorizontalIcon size={16} />}
-        onClick={() => {
-          setActiveTool("rect");
-        }}
-      ></IconButton>
+        onClick={() => setActiveTool("rect")}
+      />
       <IconButton
         activated={activeTool === "circle"}
         icon={<Circle size={16} />}
-        onClick={() => {
-          setActiveTool("circle");
-        }}
-      ></IconButton>
+        onClick={() => setActiveTool("circle")}
+      />
       <IconButton
         activated={activeTool === "pointer"}
         icon={<MousePointer size={16} />}
-        onClick={() => {
-          setActiveTool("pointer");
-        }}
+        onClick={() => setActiveTool("pointer")}
       />
     </div>
   );
