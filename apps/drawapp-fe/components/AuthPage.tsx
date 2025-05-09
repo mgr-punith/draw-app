@@ -114,7 +114,7 @@ export default function AuthPage({ isSignin }: { isSignin: boolean }) {
         >
           <Link href="/" className="flex items-center justify-center space-x-2">
             <Pencil className="h-8 w-8 text-blue-600" />
-            <span className="text-2xl font-bold">Draw-Meetings</span>
+            <span className="text-2xl font-bold">Draw-App</span>
           </Link>
           <h2 className="mt-6 text-center text-3xl font-bold tracking-tight">
             {isSignin ? "Sign in to your account" : "Create a new account"}

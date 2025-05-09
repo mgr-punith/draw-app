@@ -1,4 +1,4 @@
-
+"use server";
 
 import { cookies } from "next/headers";
 
@@ -8,7 +8,7 @@ export const setTokenCookie = async (token: string) => {
 
   (await cookies()).set({
     name: "token",
-    value: "token",
+    value: token,
     expires: expireDate,
     httpOnly: true,
   });
