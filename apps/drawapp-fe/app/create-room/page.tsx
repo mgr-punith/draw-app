@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Button } from "@repo/ui/button";
-import { Input } from "@repo/ui/input";
-import { Label } from "@repo/ui/label";
+import { Button} from "../../../../packages/ui/src/button"
+import { Input } from "../../../../packages/ui/src/input";
+import { Label } from "../../../../packages/ui/src/label";
 // import {
 //   Select,
 //   SelectContent,

@@ -1,4 +1,4 @@
-"use client";
+
 
 import { cookies } from "next/headers";
 
