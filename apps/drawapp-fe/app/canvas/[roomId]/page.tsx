@@ -1,14 +1,14 @@
 import { RoomCanvas } from "@/components/RoomCanvas";
+import { getVerifiedToken } from "@/lib/cookie";
 
 export default async function CanvasPage({
   params,
 }: {
-  params: {
-    roomId: string;
-  };
-}) {
+  params: Promise<{ roomId: string }>;
+}) 
+{
   const roomId = (await params).roomId;
-  console.log(roomId);
+  const token = await getVerifiedToken();
 
-  return <RoomCanvas roomId={roomId} />;
+  return <RoomCanvas roomId={roomId} token={token} />;
 }

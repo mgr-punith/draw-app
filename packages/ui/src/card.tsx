@@ -1,4 +1,5 @@
 import { type JSX } from "react";
+import React from "react";
 
 export function Card({
   className,
@@ -24,4 +25,4 @@ export function Card({
       <p>{children}</p>
     </a>
   );
-}
+} 
