@@ -159,6 +159,7 @@ export default function AuthPage({ isSignin }: { isSignin: boolean }) {
                       name="username"
                       type="text"
                       autoComplete="username"
+                      placeholder="Enter the username"
                       required
                       value={username}
                       onChange={(e: ChangeEvent<HTMLInputElement>) =>
@@ -177,6 +178,7 @@ export default function AuthPage({ isSignin }: { isSignin: boolean }) {
                     name="email"
                     type="text"
                     autoComplete="email"
+                    placeholder="Enter the email"
                     required
                     value={email}
                     onChange={(e: ChangeEvent<HTMLInputElement>) =>
@@ -195,6 +197,7 @@ export default function AuthPage({ isSignin }: { isSignin: boolean }) {
                     name="password"
                     type="password"
                     autoComplete="current-password"
+                    placeholder="Enter the strong password"
                     required
                     value={password}
                     onChange={(e: ChangeEvent<HTMLInputElement>) =>

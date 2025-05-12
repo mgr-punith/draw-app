@@ -17,7 +17,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "My Draw App",
-  description: "Create a shape now",
+  description: "Make your own creation",
 };
 
 export default async function RootLayout({

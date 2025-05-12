@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Button} from "../../../../packages/ui/src/button"
+import { Button } from "../../../../packages/ui/src/button";
 import { Input } from "../../../../packages/ui/src/input";
 import { Label } from "../../../../packages/ui/src/label";
 // import {
@@ -12,7 +12,6 @@ import { Label } from "../../../../packages/ui/src/label";
 //   SelectTrigger,
 //   SelectValue,
 // } from "@repo/ui/select";
-import { Users, Lock, Globe } from "lucide-react";
 import axios from "axios";
 import { BCK_API } from "@/config";
 import { getVerifiedToken } from "@/lib/cookie";
@@ -21,7 +20,6 @@ import { useRouter } from "next/navigation";
 
 export default function CreateRoom() {
   const [roomName, setRoomName] = useState("");
-  const [visibility, setVisibility] = useState("public");
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -39,7 +37,7 @@ export default function CreateRoom() {
     try {
       const res = await axios.post(
         `${BCK_API}/room`,
-        { name: roomName, visibility },
+        { name: roomName },
         {
           headers: {
             Authorization: `${token}`,
@@ -52,6 +50,11 @@ export default function CreateRoom() {
           position: "bottom-right",
           duration: 3000,
         });
+        if (!res.data.roomId) {
+          console.error("Room ID is missing from response:", res.data);
+          toast.error("Room ID is missing.");
+          return;
+        }
         router.push(`/canvas/${res.data.roomId}`);
       } else {
         toast.error(res.data.message, {
@@ -102,63 +105,11 @@ export default function CreateRoom() {
             </div>
           </div>
 
-          {/* Visibility Selection */}
-          <div>
-            <Label htmlFor="selector">Visibility</Label>
-            <div id="selector" className="mt-2 grid grid-cols-1 md:grid-cols-3 gap-4">
-              <Button
-                type="button"
-                className={`justify-center items-center flex gap-2 border-2 dark:border-white border-black ${
-                  visibility === "public" ? "dark:bg-black text-white bg-gray-800" : "bg-transparent"
-                }`}
-                onClick={() => setVisibility("public")}
-              >
-                <Globe className="mr-2 h-4 w-4" />
-                Public
-              </Button>
-              <Button
-                type="button"
-                className={`justify-center items-center flex gap-2 border-2 dark:border-white border-black ${
-                  visibility === "private" ? "dark:bg-black text-white bg-gray-800" : "bg-transparent"
-                }`}
-                onClick={() => setVisibility("private")}
-              >
-                <Lock className="mr-2 h-4 w-4" />
-                Private
-              </Button>
-              <Button
-                type="button"
-                className={`justify-center items-center flex gap-2 border-2 dark:border-white border-black ${
-                  visibility === "team" ? "dark:bg-black text-white bg-gray-800" : "bg-transparent"
-                }`}
-                onClick={() => setVisibility("team")}
-              >
-                <Users className="mr-2 h-4 w-4" />
-                Team Only
-              </Button>
-            </div>
-          </div>
-
-          {/* Optional Participant Selector */}
-          {/* <div>
-            <Label>Maximum Participants</Label>
-            <div className="mt-2">
-              <Select defaultValue="10">
-                <SelectTrigger>
-                  <SelectValue placeholder="Select maximum participants" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="5">5 participants</SelectItem>
-                  <SelectItem value="10">10 participants</SelectItem>
-                  <SelectItem value="20">20 participants</SelectItem>
-                  <SelectItem value="50">50 participants</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </div> */}
-
           {/* Submit Button */}
-          <Button type="submit" className="w-full dark:bg-black text-white bg-gray-800">
+          <Button
+            type="submit"
+            className="w-full dark:bg-black text-white bg-gray-800"
+          >
             Create Room
           </Button>
         </form>

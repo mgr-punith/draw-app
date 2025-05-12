@@ -32,7 +32,7 @@ function App() {
       {/* Hero Section */}
       <div className="relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-indigo-50 to-slate-50 z-0" />
-        <nav className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        {/* <nav className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex justify-between items-center">
             <div className="flex items-center space-x-2">
               <Shapes className="h-8 w-8 text-indigo-600" />
@@ -67,7 +67,7 @@ function App() {
             <div className="flex items-center space-x-4">
               <button
                 onClick={pushToSignIn}
-                className="hidden md:block text-gray-700 hover:text-indigo-600 transition-colors"
+                className="hidden md:block text-gray-700 bg-indigo-100 border hover:text-indigo-600 transition-colors"
               >
                 Sign In
               </button>
@@ -79,7 +79,7 @@ function App() {
               </button>
             </div>
           </div>
-        </nav>
+        </nav> */}
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-32">
           <div className="text-center max-w-4xl mx-auto">
@@ -106,7 +106,7 @@ function App() {
                 <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
               </button>
               <Link href={"https://github.com/mgr-punith/draw-app"}>
-                <button className="w-full sm:w-auto border-2 border-gray-200 text-gray-700 px-8 py-4 rounded-lg hover:border-indigo-600 hover:text-indigo-600 transition-colors flex items-center justify-center">
+                <button className="w-full sm:w-auto border-2 border-gray-200 bg-indigo-50 text-gray-700 px-8 py-4 rounded-lg hover:border-indigo-600 hover:text-indigo-600 transition-colors flex items-center justify-center">
                   <Github className="mr-2 h-5 w-5" /> View on GitHub
                 </button>
               </Link>
@@ -447,6 +447,7 @@ function FeatureCard({
   );
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function StatCard({ number, label }: { number: string; label: string }) {
   return (
     <div className="text-center">
