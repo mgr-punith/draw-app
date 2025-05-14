@@ -13,21 +13,18 @@ import { Request, Response } from "express";
 import cors from "cors";
 
 const app = express();
-const PORT = 5000;
+const PORT = 5001;
 
 app.use(express.json());
 app.use(cors());
 
-app.get("/", (req, res) => {
-  res.send("hello there");
-});
 
 app.post("/api/v1/signup", async (req, res) => {
   const parsedData = CreateUserSchema.safeParse(req.body);
   if (!parsedData.success) {
     console.log(parsedData.error);
     res.json({
-      success: "false",
+      success: false,
       message: "Incorrect Inputs",
     });
     return;
@@ -60,7 +57,7 @@ app.post("/api/v1/signin", async (req, res) => {
     const parsedData = SignInSchema.safeParse(req.body);
     if (!parsedData.success) {
       res.json({
-        success: "fasle",
+        success: false,
         message: "Incorrect Inputs",
       });
       return;
@@ -84,7 +81,7 @@ app.post("/api/v1/signin", async (req, res) => {
 
     if (!pswd) {
       res.status(403).json({
-        success: "false",
+        success: false,
         message: "Not authorized - password incorrect",
       });
       return;
@@ -98,7 +95,7 @@ app.post("/api/v1/signin", async (req, res) => {
     );
 
     res.json({
-      success: "true",
+      success: true,
       message: "Login Successfully",
       token,
     });
@@ -116,7 +113,7 @@ app.post(
     const parsedData = CreateRoomSchema.safeParse(req.body);
     if (!parsedData.success) {
       res.json({
-        success: "false",
+        success: false,
         message: "Incorrect Inputs",
       });
       return;
@@ -126,7 +123,7 @@ app.post(
     const userId = req.userId;
     if (!userId) {
       res.status(403).json({
-        success: "false",
+        success: false,
         message: "Not authorized",
       });
       return;
@@ -135,12 +132,12 @@ app.post(
     try {
       const room = await prismaClient.room.create({
         data: {
-          slug: parsedData.data.room_name,
+          slug: parsedData.data.name,
           adminId: userId,
         },
       });
       res.json({
-        success: "true",
+        success: true,
         roomId: room.id,
         message: "Room has been created",
       });

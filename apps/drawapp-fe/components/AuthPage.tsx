@@ -76,6 +76,7 @@ export default function AuthPage({ isSignin }: { isSignin: boolean }) {
     }
     try {
       const res = await axios.post(`${BCK_API}/signin`, { email, password });
+      console.log(res);
       if (res.data.success) {
         toast.success(res.data.message, {
           position: "bottom-right",
@@ -113,8 +114,8 @@ export default function AuthPage({ isSignin }: { isSignin: boolean }) {
           className="sm:mx-auto sm:w-full sm:max-w-md"
         >
           <Link href="/" className="flex items-center justify-center space-x-2">
-            <Pencil className="h-8 w-8 text-blue-600" />
-            <span className="text-2xl font-bold">Draw-App</span>
+            <Pencil className="h-6 w-6 text-blue-600" />
+            <span className="text-3xl font-bold">Draw-App</span>
           </Link>
           <h2 className="mt-6 text-center text-3xl font-bold tracking-tight">
             {isSignin ? "Sign in to your account" : "Create a new account"}
@@ -152,7 +153,7 @@ export default function AuthPage({ isSignin }: { isSignin: boolean }) {
             >
               {!isSignin && (
                 <div>
-                  <Label htmlFor="username">Username</Label>
+                  <Label htmlFor="username" className="text-gray-700 font-semibold">Username :</Label>
                   <div className="">
                     <Input
                       id="username"
@@ -171,7 +172,7 @@ export default function AuthPage({ isSignin }: { isSignin: boolean }) {
                 </div>
               )}
               <div>
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="email" className="text-gray-700 font-semibold">Email :</Label>
                 <div className="">
                   <Input
                     id="email"
@@ -190,7 +191,7 @@ export default function AuthPage({ isSignin }: { isSignin: boolean }) {
               </div>
 
               <div>
-                <Label htmlFor="password">Password</Label>
+                <Label htmlFor="password" className="text-gray-700 font-semibold">Password :</Label>
                 <div className="">
                   <Input
                     id="password"

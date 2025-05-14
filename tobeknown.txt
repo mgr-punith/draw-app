@@ -1,0 +1,92 @@
+sudo -u postgres psql
+[sudo] password for punit: 
+psql (16.8 (Ubuntu 16.8-0ubuntu0.24.04.1))
+Type "help" for help.
+
+postgres=# CREATE ROLE punit WITH LOGIN PASSWORD 'yourpassword';
+CREATE ROLE
+postgres=# ALTER ROLE punit CREATEDB;
+ALTER ROLE punit LOGIN;
+ALTER ROLE
+ALTER ROLE
+postgres=# CREATE DATABASE mydatabase WITH OWNER punit;
+CREATE DATABASE
+postgres=# \q
+
+╭─  punit  ιи 〰/draw-app/packages/db [    ] via  v23.5.0                                                                󰄉 03:37 PM
+╰───➜ psql -U punit -d mydatabase
+psql (16.8 (Ubuntu 16.8-0ubuntu0.24.04.1))
+Type "help" for help.
+
+mydatabase=> npx prisma migrate dev --name init
+mydatabase-> sudo service postgresql start
+mydatabase-> npx prisma generate
+mydatabase-> psql -U punit -d mydatabase
+mydatabase-> exit
+Use \q to quit.
+mydatabase-> \q
+
+╭─  punit  ιи 〰/draw-app/packages/db [    ] via  v23.5.0                                                                󰄉 03:40 PM
+╰───➜ 
+
+╭─  punit  ιи 〰/draw-app/packages/db [    ] via  v23.5.0                                                                󰄉 03:40 PM
+╰───➜ npx prisma generate
+Environment variables loaded from .env
+Prisma schema loaded from prisma/schema.prisma
+
+✔ Generated Prisma Client (v6.2.1) to ./../../node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client in 385ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+Tip: Want to react to database changes in your app as they happen? Discover how with Pulse: https://pris.ly/tip-1-pulse
+
+
+╭─  punit  ιи 〰/draw-app/packages/db [    ] via  v23.5.0                                                                󰄉 03:40 PM
+╰───➜ npx prisma migrate dev --name init
+Environment variables loaded from .env
+Prisma schema loaded from prisma/schema.prisma
+Datasource "db": PostgreSQL database "mydatabase", schema "public" at "localhost:5432"
+
+Applying migration `20250124173829_init_schema`
+Applying migration `20250209154230_email_unique`
+Applying migration `20250210183228_slug_unique`
+Applying migration `20250210184203_admin_id_not_unique`
+
+The following migration(s) have been applied:
+
+migrations/
+  └─ 20250124173829_init_schema/
+    └─ migration.sql
+  └─ 20250209154230_email_unique/
+    └─ migration.sql
+  └─ 20250210183228_slug_unique/
+    └─ migration.sql
+  └─ 20250210184203_admin_id_not_unique/
+    └─ migration.sql
+
+Your database is now in sync with your schema.
+
+✔ Generated Prisma Client (v6.2.1) to ./../../node_modules/.pnpm/@prisma+client@6.2.1_prisma@6.2.1/node_modules/@prisma/client in 176ms
+
+
+┌─────────────────────────────────────────────────────────┐
+│  Update available 6.2.1 -> 6.7.0                        │
+│  Run the following to update                            │
+│    npm i --save-dev prisma@latest                       │
+│    npm i @prisma/client@latest                          │
+└─────────────────────────────────────────────────────────┘
+
+╭─  punit  ιи 〰/draw-app/packages/db [    ] via  v23.5.0                                                                󰄉 03:41 PM
+╰───➜ npx prisma studio
+Environment variables loaded from .env
+Prisma schema loaded from prisma/schema.prisma
+Prisma Studio is up on http://localhost:5555
+
+
+
+
+
+
+
+
+

@@ -22,9 +22,6 @@ function App() {
   const Router = useRouter();
 
   const pushToSignIn = () => {
-    Router.push("/signin");
-  };
-  const pushToSignUp = () => {
     Router.push("/signup");
   };
   return (

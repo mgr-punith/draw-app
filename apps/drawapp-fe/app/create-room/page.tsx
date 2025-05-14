@@ -71,14 +71,14 @@ export default function CreateRoom() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto px-4 pt-32 pb-20">
+    <div className="max-w-xl mx-auto px-4 pt-32 pb-20">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
         className="text-center mb-12"
       >
-        <h1 className="text-4xl font-bold mb-4">Create a New Room</h1>
+        <h1 className="text-4xl font-bold mb-4 text-indigo-600">Create a New Room</h1>
         <p className="text-gray-600 dark:text-gray-400">
           Set up your collaborative drawing space
         </p>
@@ -90,10 +90,10 @@ export default function CreateRoom() {
         transition={{ duration: 0.5, delay: 0.1 }}
         className="bg-white dark:bg-gray-900 rounded-2xl p-8 shadow-lg"
       >
-        <form onSubmit={handleSubmit} className="space-y-8">
+        <form onSubmit={handleSubmit} className="space-y-12 max-w-60">
           {/* Room Name */}
           <div>
-            <Label htmlFor="room-name">Room Name</Label>
+            <Label htmlFor="room-name" className="text-gray-700">Room Name</Label>
             <div className="mt-2">
               <Input
                 id="room-name"
@@ -108,7 +108,7 @@ export default function CreateRoom() {
           {/* Submit Button */}
           <Button
             type="submit"
-            className="w-full dark:bg-black text-white bg-gray-800"
+            className="max-w-40 dark:bg-black text-white bg-blue-600"
           >
             Create Room
           </Button>

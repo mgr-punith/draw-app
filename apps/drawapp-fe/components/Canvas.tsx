@@ -121,7 +121,7 @@ export function Canvas({
 
       <canvas
         ref={canvasRef}
-        className={` block ${activeTool === "pointer" ? "cursor-grab" : "cursor-crosshair"}`}
+        className={` fixed top-0 left-0 w-screen h-screen block ${activeTool === "pointer" ? "cursor-grab" : "cursor-crosshair"}`}
       />
 
       <div className="absolute top-20 right-8 rounded-md z-20 space-x-2 bg-neutral-700 flex items-center p-2">

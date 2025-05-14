@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Navbar } from "@/components/navbar";
-import { ThemeProvider } from "@/components/theme-provider";
 import "./globals.css";
 import { getVerifiedToken } from "@/lib/cookie";
 
@@ -31,12 +30,11 @@ export default async function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <ThemeProvider defaultTheme="light" storageKey="draw-meetings-theme">
           <div className="w-full bg-gray-50 dark:bg-gray-950">
             <Navbar isLoggedIn={!!isLoggedIn} />
             {children}
           </div>
-        </ThemeProvider>
+        
       </body>
     </html>
   );

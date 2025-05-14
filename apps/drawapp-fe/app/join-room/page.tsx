@@ -10,29 +10,30 @@ import React, { ChangeEvent, useState } from "react";
 import { toast } from "sonner";
 
 export default function JoinRoom() {
-  const [roomId, setRoomId] = useState<string>('');
- const router = useRouter();
+  const [roomId, setRoomId] = useState<string>("");
+  const router = useRouter();
+  function createRoom(){
+    router.push(`/create-room`);
+  }
   function handleRoomJoin() {
-
-    if(!roomId){
-        toast.error("RoomID is Required", {
-            position: "bottom-right",
-            duration: 3000,
-        })
-        return;
+    if (!roomId) {
+      toast.error("RoomID is Required", {
+        position: "bottom-right",
+        duration: 3000,
+      });
+      return;
     }
 
-    if(!(/^\d+$/).test(roomId)){
-        toast.error("RoomId must be number", {
-            position: "bottom-right",
-            duration: 3000,
-        })
+    if (!/^\d+$/.test(roomId)) {
+      toast.error("RoomId must be number", {
+        position: "bottom-right",
+        duration: 3000,
+      });
     }
-    router.push(`canvas/${roomId}`)
+    router.push(`canvas/${roomId}`);
   }
   return (
     <section className="px-4 relative overflow-hidden min-w-full">
-
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[1000px] opacity-30 dark:opacity-20 z-0">
         <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full blur-3xl" />
       </div>
@@ -44,31 +45,42 @@ export default function JoinRoom() {
           transition={{ duration: 0.5 }}
           className="sm:mx-auto sm:w-full sm:max-w-md"
         >
-          <h2 className="mt-6 text-center text-3xl font-bold tracking-tight">
-            {"Enter your room id"}
+          <h2 className="mt-4 text-center text-4xl font-bold tracking-tight text-indigo-600 mb-12">
+            {"JOIN WITH ROOM-id"}
           </h2>
 
           <div>
-            <Label htmlFor="roomId">RoomId</Label>
-            <div className="">
+            <Label htmlFor="roomId" className="text-gray-600 font-bold">
+              RoomId
+            </Label>
+            <div className="mt-2">
               <Input
                 id="roomId"
                 name="roomId"
                 type="text"
                 autoComplete="roomId"
+                placeholder="Enter you room id"
                 required
-                value={(roomId)}
+                value={roomId}
                 onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                  setRoomId((e.target.value))
+                  setRoomId(e.target.value)
                 }
                 className=""
               />
             </div>
           </div>
-          <Button type="submit" className="w-full mt-4  flex justify-center items-center gap-2  dark:bg-black text-white bg-gray-800" onClick={handleRoomJoin}>
+          <Button
+            type="submit"
+            className="w-full mt-4  flex justify-center items-center gap-2  dark:bg-black text-white bg-gray-800"
+            onClick={handleRoomJoin}
+          >
             Join room
             <ArrowRight className="ml-2 h-4 w-4" />
           </Button>
+          <div className="mt-12 text-gray-700  text-md hover:text-blue-600">
+            <p>Wanna create room?</p>
+            <button onClick={createRoom} className="text-white">Create Room</button>
+          </div>
         </motion.div>
       </div>
     </section>

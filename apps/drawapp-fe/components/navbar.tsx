@@ -2,16 +2,14 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Moon, Sun, Menu, X, Pencil } from "lucide-react";
+import {  Menu, X, Pencil } from "lucide-react";
 import { Button } from "../../../packages/ui/src/button";
-import { useTheme } from "@/components/theme-provider";
 import Link from "next/link";
 import { removeTokenCookie } from "@/lib/cookie";
 
 export function Navbar({ isLoggedIn }: { isLoggedIn: boolean }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { theme, setTheme } = useTheme();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -64,14 +62,7 @@ export function Navbar({ isLoggedIn }: { isLoggedIn: boolean }) {
             >
               About
             </Link>
-            <Button
-              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-              className="dark:border-white/30  border-black/30 flex justify-center items-center dark:bg-black bg-white/30 relative size-8"
-            >
-              <Sun className="absolute size-5  rotate-0 scale-100  transition-all dark:-rotate-90 dark:scale-0" />
-              <Moon className="absolute size-5  rotate-90  scale-0 transition-all dark:rotate-0 dark:scale-100" />
-              <span className="sr-only">Toggle theme</span>
-            </Button>
+            
             {!isLoggedIn ? (
               <>
                 <Link href="/signin">
@@ -104,14 +95,6 @@ export function Navbar({ isLoggedIn }: { isLoggedIn: boolean }) {
 
           {/* Mobile Menu Button */}
           <div className="md:hidden flex items-center space-x-4">
-            <Button
-              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-              className="dark:border-white/30  border-black/30 flex justify-center items-center dark:bg-black bg-white/30 relative size-8"
-            >
-              <Sun className="absolute size-5  rotate-0 scale-100  transition-all dark:-rotate-90 dark:scale-0" />
-              <Moon className="absolute size-5  rotate-90  scale-0 transition-all dark:rotate-0 dark:scale-100" />
-              <span className="sr-only">Toggle theme</span>
-            </Button>
             <Button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="dark:border-white/30 border-black/30  dark:bg-black bg-white/30 relative"
