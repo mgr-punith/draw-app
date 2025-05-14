@@ -1,84 +1,155 @@
-# Turborepo starter
+Real-Time Collaborative Drawing
+A modern collaborative drawing platform built with Next.js and WebSocket technology. This platform allows multiple users to draw on the same canvas in real-time, providing a seamless collaborative experience.
 
-This Turborepo starter is maintained by the Turborepo core team.
+Features
+🎨 Real-time drawing collaboration
 
-## Using this example
+🔄 Live canvas synchronization
 
-Run the following command:
+🛠️ Drawing tools:
 
-```sh
-npx create-turbo@latest
-```
+Rectangle
 
-## What's inside?
+Circle
 
-This Turborepo includes the following packages/apps:
+Line
 
-### Apps and Packages
+Freehand drawing
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+🖐️ Canvas controls:
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+Pan
 
-### Utilities
+Zoom
 
-This Turborepo has some additional tools already setup for you:
+Reset view
 
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
+🔐 Secure authentication
 
-### Build
+🏠 Drawing rooms
 
-To build all apps and packages, run the following command:
+🌙 Dark theme
 
-```
-cd my-turborepo
-pnpm build
-```
+Technology Stack
+Frontend
+Next.js 14
 
-### Develop
+TypeScript
 
-To develop all apps and packages, run the following command:
+Tailwind CSS
 
-```
-cd my-turborepo
+Custom UI components
+
+Canvas API
+
+Backend
+Node.js
+
+WebSocket server
+
+Prisma ORM
+
+PostgreSQL database
+
+Development
+Turborepo
+
+pnpm package manager
+
+Vercel deployment
+
+Getting Started
+Prerequisites
+Node.js 18 or higher
+
+pnpm package manager
+
+PostgreSQL database
+
+Installation
+Clone the repository:
+
+bash
+Copy
+Edit
+git clone <repository-url>
+cd <project-name>
+Install dependencies:
+
+bash
+Copy
+Edit
+pnpm install
+Configure environment variables:
+
+For the frontend (apps/web/.env):
+
+env
+Copy
+Edit
+NEXT_PUBLIC_BACKEND_URL=http://localhost:5000/api/v1
+For the backend (apps/http-backend/.env):
+
+env
+Copy
+Edit
+DATABASE_URL=postgresql://...
+JWT_SECRET=your-secret-key
+For the WebSocket server (apps/ws-backend/.env):
+
+env
+Copy
+Edit
+DATABASE_URL=postgresql://...
+JWT_SECRET=your-secret-key
+Set up the database:
+
+Navigate to the backend folder:
+
+bash
+Copy
+Edit
+cd apps/http-backend
+pnpm prisma generate
+pnpm prisma db push
+Start development servers:
+
+bash
+Copy
+Edit
 pnpm dev
-```
+Project Structure
+plaintext
+Copy
+Edit
+apps/
+  ├── web/                 # Next.js frontend
+  ├── http-backend/       # REST API server
+  └── ws-backend/         # WebSocket server
+packages/
+  ├── ui/                 # Shared components
+  ├── db/                 # Database client
+  └── common/             # Shared utilities
+Contributing
+Fork the repository
 
-### Remote Caching
+Create a feature branch:
 
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
+bash
+Copy
+Edit
+git checkout -b feature/new-tool
+Commit changes:
 
-Turborepo can use a technique known as [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
+bash
+Copy
+Edit
+git commit -m 'Add new drawing tool'
+Push to the branch:
 
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
+bash
+Copy
+Edit
+git push origin feature/new-tool
+Open a Pull Request
 
-```
-cd my-turborepo
-npx turbo login
-```
-
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-```
-npx turbo link
-```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turbo.build/repo/docs/core-concepts/monorepos/running-tasks)
-- [Caching](https://turbo.build/repo/docs/core-concepts/caching)
-- [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching)
-- [Filtering](https://turbo.build/repo/docs/core-concepts/monorepos/filtering)
-- [Configuration Options](https://turbo.build/repo/docs/reference/configuration)
-- [CLI Usage](https://turbo.build/repo/docs/reference/command-line-reference)
